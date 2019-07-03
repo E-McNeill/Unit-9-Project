@@ -1,12 +1,12 @@
 
-'use strict';
+// 'use strict';
 
 const express = require('express');
 const User = require("../models").User;
 
 // Construct a router instance.
 const router = express.Router();
-
+users = [];
 //Displays all users ---> Should show currently authenticated user instead
   router.get('/users', function(req, res, next) {
     User.findAll({order: [["id", "ASC"]]}).then(function(users){
@@ -18,6 +18,7 @@ const router = express.Router();
   
 
 //   Route that creates a new user.
+
 // router.post('/users', (req, res) => {
 //     res.location('/');
 //   // Get the user from the request body.
@@ -25,7 +26,6 @@ const router = express.Router();
 
 //   // Add the user to the `users` array.
 //   users.push(user);
-
 //   // Set the status to 201 Created and end the response.
 //   res.status(201).end();
 // });
