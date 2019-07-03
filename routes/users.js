@@ -30,7 +30,7 @@ const router = express.Router();
 // });
 
 router.post('/users', function(req, res, next) {
-    User.create({
+ User.create({
         firstName: User.firstName,
         lastName: User.lastName,
         emailAddress: User.emailAddress,
@@ -38,19 +38,22 @@ router.post('/users', function(req, res, next) {
     })
     .then(function(user) { 
         res.location('/');
-        // res.status(201);
-    }).catch(function(err){
-      if (err.name === "SequelizeValidationError"){
+        res.status(201).end();
+    })
+    .catch(function(err){
+      if (err.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError"){
         res.sendStatus(400);
         console.log(err);
       } else {
-        throw err;
+        // throw err;
+        res.sendStatus(500);
+        console.log(err);
       }
     })
-    .catch(function(err){
-      res.sendStatus(500);
-      console.log(err);
-    });
+    // .catch(function(err){
+    //   res.sendStatus(500);
+    //   console.log(err);
+    // });
   });
 
 

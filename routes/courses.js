@@ -40,7 +40,13 @@ res.sendStatus(500);
 // });
 
 router.post('/courses', function(req, res, next) {
-    Course.create(req.body).then(function(course) { 
+    Course.create({
+        title: Course.title,
+        description: Course.description,
+        estimatedTime: Course.estimatedTime,
+        materialsNeeded: Course.materialsNeeded
+    })
+    .then(function(course) { 
         res.location('/courses/:id');
         // res.status(201);
     }).catch(function(err){
