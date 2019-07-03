@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 const express = require('express');
 const Course = require("../models").Course;

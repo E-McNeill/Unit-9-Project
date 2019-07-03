@@ -1,16 +1,15 @@
 
-// 'use strict';
+'use strict';
 
 const express = require('express');
 const User = require("../models").User;
-
 // Construct a router instance.
 const router = express.Router();
-users = [];
+
 //Displays all users ---> Should show currently authenticated user instead
   router.get('/users', function(req, res, next) {
-    User.findAll({order: [["id", "ASC"]]}).then(function(users){
-    res.json(users);
+    User.findAll({order: [["id", "ASC"]]}).then(function(user){
+    res.json(user);
       }).catch(function(err){
         res.sendStatus(500);
     });
@@ -31,7 +30,13 @@ users = [];
 // });
 
 router.post('/users', function(req, res, next) {
-    User.create(req.body).then(function(user) { 
+    User.create({
+        firstName: User.firstName,
+        lastName: User.lastName,
+        emailAddress: User.emailAddress,
+        password: User.password
+    })
+    .then(function(user) { 
         res.location('/');
         // res.status(201);
     }).catch(function(err){
@@ -47,5 +52,6 @@ router.post('/users', function(req, res, next) {
       console.log(err);
     });
   });
+
 
 module.exports = router;
