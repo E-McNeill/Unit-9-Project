@@ -3,6 +3,7 @@
 
 const express = require('express');
 const User = require("../models").User;
+var validator = require('validator');
 // Construct a router instance.
 const router = express.Router();
 
@@ -39,23 +40,25 @@ router.post('/users', function(req, res, next) {
     .then(function(user) { 
         res.location('/');
         res.status(201).end();
-        console.log(req.body);
     })
     .catch(function(err){
       if (err.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError"){
         res.sendStatus(400);
         console.log(err);
       } else {
-        // throw err;
+        throw err;
+      }
+      }).catch(function(err){
         res.sendStatus(500);
         console.log(err);
-      }
-    })
+    });
+    });
+
     // .catch(function(err){
     //   res.sendStatus(500);
     //   console.log(err);
     // });
-  });
+  // });
 
 
 module.exports = router;

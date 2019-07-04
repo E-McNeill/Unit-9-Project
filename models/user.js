@@ -8,35 +8,37 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstName: {
       type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
       validate: {
-        notEmpty: {
-          msg: "First name is required."
-        }
-      }
-    },
+        notEmpty: { msg: 'Your first name is required' }   
+      } 
+      },
+
     lastName: {
       type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
       validate: {
-        notEmpty: {
-          msg: "Last name is required."
-        }
-      }
-    },
+        notEmpty: { msg: 'Your last name is required' }   
+      } 
+      },
     emailAddress: {
       type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
       validate: {
-        notEmpty: {
-          msg: "An email address is required."
-        }
-      }    
-    },
+        isEmail: {args: true, msg: 'Oops, that doesn\'t look like a valid email address'},
+        notEmpty: { msg: 'An email is required' } 
+      }
+  },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
       validate: {
-        notEmpty: {
-          msg: "A password is required."
-        }
-      }    
+        notEmpty: { msg: 'A password is required' }   
+      }
     }
     });
   User.associate = function(models) {
@@ -47,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         fieldName: "userId",
         allowNull: false,
       },
+    
     });
   };
   return User;
