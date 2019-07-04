@@ -6,6 +6,10 @@ const User = require("../models").User;
 // Construct a router instance.
 const router = express.Router();
 
+// Create the Express app.
+const app = express();
+
+
 //Displays all users ---> Should show currently authenticated user instead
   router.get('/users', function(req, res, next) {
     User.findAll({order: [["id", "ASC"]]}).then(function(user){
@@ -29,14 +33,9 @@ const router = express.Router();
 //   res.status(201).end();
 // });
 
+
 router.post('/users', function(req, res, next) {
  User.create(req.body)
-//  ({
-//         firstName: User.firstName,
-//         lastName: User.lastName,
-//         emailAddress: User.emailAddress,
-//         password: User.password
-//     })
     .then(function(user) { 
         res.location('/');
         res.status(201).end();
