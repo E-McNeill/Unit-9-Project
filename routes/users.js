@@ -30,15 +30,17 @@ const router = express.Router();
 // });
 
 router.post('/users', function(req, res, next) {
- User.create({
-        firstName: User.firstName,
-        lastName: User.lastName,
-        emailAddress: User.emailAddress,
-        password: User.password
-    })
+ User.create(req.body)
+//  ({
+//         firstName: User.firstName,
+//         lastName: User.lastName,
+//         emailAddress: User.emailAddress,
+//         password: User.password
+//     })
     .then(function(user) { 
         res.location('/');
         res.status(201).end();
+        console.log(req.body);
     })
     .catch(function(err){
       if (err.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError"){
