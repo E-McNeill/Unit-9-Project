@@ -10,28 +10,6 @@ const authenticateUser = require('./authenticateUser');
 const router = express.Router();
 
 //Returns list of courses
-// router.get('/courses', function(req, res, next) {
-// Course.findAll({
-// // order: [["id", "ASC"]], 
-// // atttributes: ['id', 'title', 'description', 'estimatedTime', 'materialsNeeded', 'userId'],
-// atttributes: {exclude: ['courses.userId']},
-
-// // include: [{model: User, attributes: ['id', 'firstName', 'lastName', 'emailAddress']}]
-// })
-// .then(function(courses){
-// if (courses){
-// res.json({courses:courses});
-// } else {
-//     res.sendStatus(500);
-// }
-// })
-// //   })
-// //   .catch(function(err){
-// //     res.sendStatus(500);
-// });
-// // });
-
-//Returns list of courses
 router.get('/courses', function(req, res, next) {
     Course.findAll({
         order: [["id", "ASC"]],
@@ -118,8 +96,6 @@ router.put('/courses/:id', authenticateUser, (req, res, next)=> {
       return next(err);
     });
   });
-
-
 
   
 // Deletes a specific course
