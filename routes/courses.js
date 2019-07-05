@@ -2,7 +2,9 @@
 
 const express = require('express');
 const Course = require("../models").Course;
+const User = require("../models").User;
 var validator = require('validator');
+const authenticateUser = require('./authenticateUser');
 
 // Construct a router instance.
 const router = express.Router();
@@ -31,7 +33,7 @@ Course.findByPk(req.params.id).then(function(courses){
 });
 
 // Creates a new course
-router.post('/courses', function(req, res, next) {
+router.post('/courses', authenticateUser, (req, res, next) => {
     Course.create(req.body)
     .then(function(course) { 
         res.location('/courses/:id');
@@ -90,7 +92,9 @@ router.delete('/courses/:id', function(req, res, next){
       res.sendStatus(204);
       res.location("/");
     }).catch(function(err){
-     res.sendStatus(500);
+     err.status = 500;
+     return next(err);
+
     });
   });
 

@@ -29,9 +29,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: '',
       unique: {args: true, msg: 'Hmm, we seem to already have that email on file.'},
       validate: {
-        isEmail: {args: true, msg: 'Oops, that doesn\'t look like a valid email address.'},
-        notEmpty: { msg: 'An email is required.' }
-
+        notEmpty: { msg: 'An email is required.' },
+        isEmail: {args: true, msg: 'Oops, that doesn\'t look like a valid email address.'}, 
       }
   },
     password: {
@@ -48,8 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         fieldName: "userId",
         allowNull: false,
-      },
-    
+              },
     });
   };
   return User;
