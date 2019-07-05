@@ -63,13 +63,15 @@ const app = express();
   router.get('/users', authenticateUser, (req, res) => {
       const user = req.currentUser;
     
-      // res.json({
-      //   firstName: User.firstName,
-      //   lastName: User.lastName,
-      // });
       res.json({
-        message: `Currently Authenticated User: ${user.firstName} ${user.lastName}`
-      })
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        emailAddress: user.emailAddress
+      });
+      // res.json({
+      //   message: `Currently Authenticated User: ${user.firstName} ${user.lastName}`
+      // })
     })
   
 

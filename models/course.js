@@ -22,8 +22,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'Please enter a description.' }   
       } 
       },
-    estimatedTime: DataTypes.STRING,
-    materialsNeeded: DataTypes.STRING
+    estimatedTime: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    materialsNeeded: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }
   }, 
   {});
   Course.associate = function(models) {
