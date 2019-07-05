@@ -19,7 +19,7 @@ res.json(courses);
 });
 
   //Returns specific course
-router.get("/courses/:id", function(req, res, next){
+router.get("/courses/:id", authenticateUser, (req, res, next)=> {
 Course.findByPk(req.params.id).then(function(courses){
     if (courses) {
         res.json(courses);
@@ -54,7 +54,7 @@ router.post('/courses', authenticateUser, (req, res, next) => {
 
 
 // Updates details for a specific course
-router.put('/courses/:id', function(req, res, next){
+router.put('/courses/:id', authenticateUser, (req, res, next)=> {
     Course.findByPk(req.params.id).then(function(course){
         if (req.body.title && req.body.description){
             console.log(req.body.title);
@@ -85,12 +85,12 @@ router.put('/courses/:id', function(req, res, next){
 
   
 // Deletes a specific course
-router.delete('/courses/:id', function(req, res, next){
+router.delete('/courses/:id', authenticateUser,(req, res, next) => {
     Course.findByPk(req.params.id).then(function(course) {
       return course.destroy();
     }).then(function(){
       res.sendStatus(204);
-      res.location("/");
+    //   res.location("/");
     }).catch(function(err){
      err.status = 500;
      return next(err);
