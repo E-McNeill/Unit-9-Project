@@ -8,20 +8,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
       validate: {
-        notEmpty: {
-          msg: "Please enter a a course title."
-        }
-      }    
-    },
+        notEmpty: { msg: 'Please enter a title.' }   
+      } 
+      },
     description: {
       type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '',
       validate: {
-        notEmpty: {
-          msg: "A course description is required."
-        }
-      }    
-    },
+        notEmpty: { msg: 'Please enter a description.' }   
+      } 
+      },
     estimatedTime: DataTypes.STRING,
     materialsNeeded: DataTypes.STRING
   }, 
