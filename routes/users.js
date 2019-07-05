@@ -13,74 +13,56 @@ const router = express.Router();
 // Create the Express app.
 const app = express();
 
-//     const authenticateUser = (req, res, next) => {
-//       let message = null;
-//       // Parse the user's credentials from the Authorization header.
-//       const credentials = auth(req);
-//     console.log(credentials);
-//       // If the user's credentials are available...
-//       if (credentials) {
-//         // Attempt to retrieve the user from the data store
-//         // by their username (i.e. the user's "key"
-//         // from the Authorization header).
-//         const user = users.find(u => u.emailAddress === credentials.name);
-    
-//         // If a user was successfully retrieved from the data store...
-//         if (user) {
-//           // Use the bcryptjs npm package to compare the user's password
-//           // (from the Authorization header) to the user's password
-//           // that was retrieved from the data store.
-//           const authenticated = bcryptjs
-//             .compareSync(credentials.pass, user.password);
-    
-//           // If the passwords match...
-//           if (authenticated) {
-//             console.log(`Authentication successful for username: ${user.emailAddress}`);
-    
-//             // Then store the retrieved user object on the request object
-//             // so any middleware functions that follow this middleware function
-//             // will have access to the user's information.
-//             req.currentUser = user;
-//           } else {
-//             message = `Authentication failure for username: ${user.emailAddress}`;
-//           }
-//         } else {
-//           message = `User not found for username: ${credentials.name}`;
-//         }
-//       } else {
-//         message = 'Auth header not found';
-//       }
-    
-//       // If user authentication failed...
-//       if (message) {
-//         console.warn(message);
-    
-//         // Return a response with a 401 Unauthorized HTTP status code.
-//         res.status(401).json({ message: 'Access Denied' });
-//       } else {
-//         // Or if user authentication succeeded...
-//         // Call the next() method.
-//         next();
-//       }
-//   };
-// //Displays all users ---> Should show currently authenticated user instead
-// // router.get('/users', authenticateUser, function(req, res, next) {
-// //   User.findAll({order: [["id", "ASC"]]}).then(function(user){
-// //   res.json(user);
-// //     }).catch(function(err){
-// //       res.sendStatus(500);
-// //   });
-// //   });
+// Authenticate the user info
 
-// // Route that returns the current authenticated user.
-// router.get('/users', authenticateUser, (req, res) => {
-//   const user = req.currentUser;
+const authenticateUser = (req, res, next) => {
+  let message = null;
+  const credentials = auth(req);
 
-//   res.json({
-//     name: user.emailAdrdress,
-//     pass: user.password,
-//   });
-// })
+  if (credentials) {
+   User.findOne({where: {emailAddress : credentials.name}}).then( user => {
+    // console.log(user);
+  
+  if (user){
+    const authenticated = bcryptjs.compareSync(credentials.pass, user.password);
+
+    if (authenticated) {
+      console.log(`Authentication successful for username: ${user.emailAddress}`);
+      req.currentUser = user;
+      // console.log(req.currentUser);
+      next();
+    } else {
+      message = `Authentication failure for username: ${user.emailAddress}`;
+      console.log(`Authentication failure for username: ${user.emailAddress}`);
+      res.status(401);
+
+    }
+    } else {
+      message = `User not found for username: ${credentials.name}`;
+      console.log(`User not found for username: ${credentials.name}`);
+      res.status(401);
+    }
+  })
+    } else {
+      console.log('Auth header not found');
+      res.status(401).json({ message: 'Access Denied' });
+      // next();
+    }
+  }
+
+  // Route that returns the current authenticated user.
+  router.get('/users', authenticateUser, (req, res) => {
+      const user = req.currentUser;
+    
+      // res.json({
+      //   firstName: User.firstName,
+      //   lastName: User.lastName,
+      // });
+      res.json({
+        message: `Currently Authenticated User: ${user.firstName} ${user.lastName}`
+      })
+    })
+  
 
 //   Route that creates a new user.
 router.post('/users', function(req, res, next) {
