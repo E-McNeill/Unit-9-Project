@@ -32,21 +32,29 @@ const authenticateUser = (req, res, next) => {
       // console.log(req.currentUser);
       next();
     } else {
-      message = `Authentication failure for username: ${user.emailAddress}`;
+      // message = `Authentication failure for username: ${user.emailAddress}`;
       console.log(`Authentication failure for username: ${user.emailAddress}`);
-      res.status(401);
+      const err = new Error(`Authentication failure for username: ${user.emailAddress}`);
+      err.status = 401;
+      next(err);
+
 
     }
     } else {
-      message = `User not found for username: ${credentials.name}`;
+      // message = `User not found for username: ${credentials.name}`;
       console.log(`User not found for username: ${credentials.name}`);
-      res.status(401);
+      const err = new Error(`User not found for username: ${credentials.name}`);
+      err.status = 401;
+      next(err);
     }
   })
-    } else {
+    } 
+    else {
       console.log('Auth header not found');
-      res.status(401).json({ message: 'Access Denied' });
-      // next();
+      // res.status(401).json({ message: 'Access Denied' });
+      const err = new Error(`Access Denied`);
+      err.status = 401;
+      next(err);
     }
   }
 
