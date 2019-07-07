@@ -45,7 +45,7 @@ router.get("/courses/:id",  (req, res, next)=> {
 router.post('/courses', authenticateUser, (req, res, next) => {
     Course.create(req.body)
     .then(function(course) { 
-        res.location('/courses/:id');
+        res.location(`/courses/${course.id}`);
         res.status(201).end();
     }).catch(function(err){
         if (err.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError"){
